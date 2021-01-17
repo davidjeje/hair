@@ -31,7 +31,7 @@ class Booking
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $customer; 
+    private $customer;  
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="bookings")
