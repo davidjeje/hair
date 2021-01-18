@@ -42,7 +42,7 @@ class ServiceController extends AbstractController
             'service' => $service,
             'form' => $form->createView(),
         ]);
-    }
+    } 
 
     /**
      * @Route("/{id}", name="service_show", methods={"GET"})
