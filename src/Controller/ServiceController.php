@@ -31,6 +31,14 @@ class ServiceController extends AbstractController
         return $this->render('service/about.html.twig');
     }
 
+    /**
+     * @Route("/login", name="login_or_registration", methods={"GET"})
+     */
+    public function loginOrRegistration(): Response
+    {
+        return $this->render('service/loginOrRegistration.html.twig');
+    }
+
     #[Route('/new', name: 'service_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {

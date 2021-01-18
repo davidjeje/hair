@@ -60,7 +60,7 @@
                   <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
                   <li><a href="index.html" class="nav-link">Nos prestations</a></li>
                   <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
-                  <li><a href="about.html" class="nav-link">Connexion/Inscription</a></li>
+                  <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
                 </ul>
               </nav>
             </div>       
@@ -97,143 +97,140 @@
 
           {% block site2 %}
           <div class="page-content">
-    <div class="form-v8-content">
-      <div class="form-left">
-        <img src="images/form-v8.jpg" alt="form">
-      </div>
-      <div class="form-right">
-        <div class="tab">
-          <div class="tab-inner">
-            <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
-          </div>
-          <div class="tab-inner">
-            <button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
-          </div>
-        </div>
-        <form class="form-detail" action="#" method="post">
-          <div class="tabcontent" id="sign-up">
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="text" name="full_name" id="full_name" class="input-text" required>
-                <span class="label">Username</span>
-                  <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="text" name="your_email" id="your_email" class="input-text" required>
-                <span class="label">E-Mail</span>
-                  <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="password" name="password" id="password" class="input-text" required>
-                <span class="label">Password</span>
-                <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
-                <span class="label">Comfirm Password</span>
-                <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row-last">
-              <input type="submit" name="register" class="register" value="Register">
-            </div>
-          </div>
-        </form>
-        <form class="form-detail" action="#" method="post">
-          <div class="tabcontent" id="sign-in">
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="text" name="full_name_1" id="full_name_1" class="input-text" required>
-                <span class="label">Username</span>
-                  <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="text" name="your_email_1" id="your_email_1" class="input-text" required>
-                <span class="label">E-Mail</span>
-                  <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="password" name="password_1" id="password_1" class="input-text" required>
-                <span class="label">Password</span>
-                <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-row-inner">
-                <input type="password" name="comfirm_password_1" id="comfirm_password_1" class="input-text" required>
-                <span class="label">Comfirm Password</span>
-                <span class="border"></span>
-              </label>
-            </div>
-            <div class="form-row-last">
-              <input type="submit" name="register" class="register" value="Sign In">
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-            </div>
-          
-          </div>
-          {% endblock %}
-        </div>
-      </div>
-
-      <footer class="site-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-3">
-              <img src="images/img_1.jpg" alt="Image" class="img-fluid mb-5">
-              <h2 class="footer-heading mb-3">About Us</h2>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
-            </div>
-            <div class="col-lg-8 ml-auto">
-              <div class="row">
-                <div class="col-lg-6 ml-auto">
-                  <h2 class="footer-heading mb-4">Quick Links</h2>
-                  <ul class="list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
+            <div class="form-v8-content">
+              <div class="form-left">
+                <img src="images/form-v8.jpg" alt="form">
+              </div>
+              <div class="form-right">
+                <div class="tab">
+                  <div class="tab-inner">
+                    <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
+                  </div>
+                  <div class="tab-inner">
+                    <button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
+                  </div>
                 </div>
-                <div class="col-lg-6">
-                  <h2 class="footer-heading mb-4">Newsletter</h2>
-                  <form action="#" class="d-flex" class="subscribe">
-                    <input type="text" class="form-control mr-3" placeholder="Email">
-                    <input type="submit" value="Send" class="btn btn-primary">
-                  </form>
-                </div>  
+                <form class="form-detail" action="#" method="post">
+                  <div class="tabcontent" id="sign-up">
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="text" name="full_name" id="full_name" class="input-text" required>
+                        <span class="label">Username</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="text" name="your_email" id="your_email" class="input-text" required>
+                        <span class="label">E-Mail</span>
+                          <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="password" name="password" id="password" class="input-text" required>
+                        <span class="label">Password</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
+                        <span class="label">Comfirm Password</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row-last">
+                      <input type="submit" name="register" class="register" value="Register">
+                    </div>
+                  </div>
+                </form>
+                <form class="form-detail" action="#" method="post">
+                  <div class="tabcontent" id="sign-in">
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="text" name="full_name_1" id="full_name_1" class="input-text" required>
+                        <span class="label">Username</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="text" name="your_email_1" id="your_email_1" class="input-text" required>
+                        <span class="label">E-Mail</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="password" name="password_1" id="password_1" class="input-text" required>
+                        <span class="label">Password</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row">
+                      <label class="form-row-inner">
+                        <input type="password" name="comfirm_password_1" id="comfirm_password_1" class="input-text" required>
+                        <span class="label">Comfirm Password</span>
+                        <span class="border"></span>
+                      </label>
+                    </div>
+                    <div class="form-row-last">
+                      <input type="submit" name="register" class="register" value="Sign In">
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-          <div class="row pt-5 mt-5 text-center">
-            <div class="col-md-12">
-              <div class="border-top pt-5">
-                <p>
-                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
+        </div>     
+      </div>
+      {% endblock %}
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <img src="images/img_1.jpg" alt="Image" class="img-fluid mb-5">
+            <h2 class="footer-heading mb-3">About Us</h2>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+          </div>
+          <div class="col-lg-8 ml-auto">
+            <div class="row">
+              <div class="col-lg-6 ml-auto">
+                <h2 class="footer-heading mb-4">Quick Links</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Testimonials</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                </ul>
               </div>
+              <div class="col-lg-6">
+                <h2 class="footer-heading mb-4">Newsletter</h2>
+                <form action="#" class="d-flex" class="subscribe">
+                  <input type="text" class="form-control mr-3" placeholder="Email">
+                  <input type="submit" value="Send" class="btn btn-primary">
+                </form>
+              </div>  
             </div>
           </div>
         </div>
-      </footer>
-    </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <div class="border-top pt-5">
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery-migrate-3.0.0.js') }}"></script>
@@ -271,6 +268,5 @@
     </script>
 
   </body>
-
 </html>
 
