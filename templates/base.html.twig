@@ -5,26 +5,25 @@
 
     	{% block site1 %}
     	<div class="site-section">
-      	<div class="container">
-        	<div class="row justify-content-center mb-5">
-          	<div class="col-md-7 text-center">
-            	<h3 class="scissors text-center">Toutes les prestations</h3>
-            	<p class="mb-5 lead">Sélectionner la coupe qui vous plaît !!!</p>
-          	</div>
-        	</div>
-        	{% for service in services %}
-        	<div class="row hair-style">
-          	<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-            	<a href="#" class="place">
-              	<img src="images/img_1.jpg" alt="Image placeholder">
-              	<h2>{{service.name}}</h2>
-              	<span>{{service.price}} euros.</span>
-            	</a>
-          	</div>
-        	</div>
-        	{% endfor %}
-      	</div>
-    	</div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="img-years">
+              <img src="{{ asset('images/'~service.image) }}" alt="Image" class="img-fluid">
+              <div class="year">
+                <span>{{service.price}}€</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-5 ml-auto pl-lg-5 text-center">
+            <h3 class="scissors text-center">{{service.name}}</h3>
+            <p class="mb-5 lead">{{service.description}}</p>
+            <p><a href="#" class="btn btn-primary">Plus d'info</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
     	<!-- END section -->
     	{% endblock %}
 

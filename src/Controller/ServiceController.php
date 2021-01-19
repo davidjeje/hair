@@ -26,7 +26,7 @@ class ServiceController extends AbstractController
     /**
      * @Route("/about", name="service_about", methods={"GET"})
      */
-    public function about(ServiceRepository $serviceRepository): Response
+    public function about(): Response
     {
         return $this->render('service/about.html.twig');
     }
@@ -37,6 +37,16 @@ class ServiceController extends AbstractController
     public function loginOrRegistration(): Response
     {
         return $this->render('service/loginOrRegistration.html.twig');
+    }
+
+    /**
+     * @Route("/service", name="service_service", methods={"GET"})
+     */
+    public function service(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('service/service.html.twig', [
+            'services' => $serviceRepository->findAll(),
+        ]);
     }
 
     #[Route('/new', name: 'service_new', methods: ['GET', 'POST'])]
