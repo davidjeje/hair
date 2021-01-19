@@ -24,7 +24,6 @@
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-
     
     <div class="site-wrap" id="home-section">
 
@@ -36,8 +35,6 @@
         </div>
         <div class="site-mobile-menu-body"></div>
       </div>
-
-
 
       <header class="site-navbar site-navbar-target" role="banner">
 
@@ -55,19 +52,8 @@
 
               <span class="d-inline-block d-lg-none"><a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white"><span class="icon-menu h3 text-white"></span></a></span>
 
-              
-
-              <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                  <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
-                  <li><a href="index.html" class="nav-link">Nos prestations</a></li>
-                  <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
-                  <li><a href="about.html" class="nav-link">Connexion/Inscription</a></li>
-                </ul>
-              </nav>
-            </div>
-
-            
+              {% include 'head.html.twig' %}
+            </div>     
           </div>
         </div>
 

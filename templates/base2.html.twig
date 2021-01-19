@@ -55,14 +55,7 @@
               
               <span class="d-inline-block d-lg-none"><a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white"><span class="icon-menu h3 text-white"></span></a></span>
 
-              <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                  <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
-                  <li><a href="index.html" class="nav-link">Nos prestations</a></li>
-                  <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
-                  <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
-                </ul>
-              </nav>
+              {% include 'head.html.twig' %}
             </div>       
           </div>
         </div>
@@ -89,8 +82,12 @@
           {% block site1 %}
           <div class="row justify-content-center text-center">
             <div class="col-7 text-center mb-5">
-              <h2>Style Salon</h2>
-              <p>Le salon est ouvert depuis 2017 sur la commune de Donnemarie-Dontilly. C'est un salon destiné uniquement au homme. Fort de son succès, les prestations se font uniquement sur rendez-vous. Ainsi, vous-avez le loisir d'être dans un calme absolu lors d'une coupe de cheveux.</p>
+              <h2>Amin's Hair Coiffure</h2>
+              <p>Le salon est ouvert depuis 2017 sur la commune de Donnemarie-Dontilly. C'est un salon destiné uniquement au homme. Fort de son succès, les prestations se font uniquement sur rendez-vous. Ainsi, vous-avez le loisir de ne pas patienter sur place en attendant votre tour et d'être dans un calme absolu lors d'une coupe de cheveux.</p>
+              <h2>Services</h2>
+              <p>Sur place, nous proposons plusieur coupes de cheveux, taillage de barbe et soins du cheveux. Vous avez la possibilité de voir nos prestations dans l'onglet prestation situé dans le menu.</p>
+              <h2>Localisation</h2>
+              <p> 8 Rue Raymond Bellague, 77520 Donnemarie-Dontilly. Nous sommes ouvert du Mardi au Samedi 24/24 . </p>
             </div>
           </div>
           {% endblock %}
