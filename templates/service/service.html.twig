@@ -14,7 +14,7 @@
                 
                 <h2><a href="single.html">{{service.name}}</a></h2>
                 <span class="meta d-inline-block mb-3">{{service.price}}€</span>
-                <p>{{service.description}}</p>
+                <p><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-primary">Plus d'info</a></p>
               </div>
             </div>
           </div>

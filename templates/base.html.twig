@@ -19,7 +19,7 @@
           <div class="col-lg-5 ml-auto pl-lg-5 text-center">
             <h3 class="scissors text-center">{{service.name}}</h3>
             <p class="mb-5 lead">{{service.description}}</p>
-            <p><a href="#" class="btn btn-primary">Plus d'info</a></p>
+            <p><button type="button" class="btn btn-danger">RDV</button></p>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
                   	<h3>{{service.name}}</h3>
                   	<ul>
                     	<li class="d-flex"><span>Prix de la prestation</span> <span class="price ml-auto">{{service.price}} euros.</span></li>
-                    	<li class="d-flex"><span><a href="{{ path('service_show', {'id': service.id}) }}">Description de la coupe</a></span> <span class="price ml-auto">Réservation</span></li>  
+                    	<li class="d-flex"><span><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-secondary">Plus d'info</a></span> <span class="price ml-auto"><button type="button" class="btn btn-danger">RDV</button></span></li> 
                   	</ul>
                 	</div>
               	</div>
@@ -64,44 +64,45 @@
   		</div> 
     	{% endblock %}
 
+    	{% block site3 %}
     	<div class="site-section section-3" data-stellar-background-ratio="0.5" style="background-image: url('images/hero_1.jpg');">
       	<div class="container">
         	<div class="row justify-content-center text-center">
           	<div class="col-7 text-center mb-5">
-            	<h2 class="text-white scissors primary-color-icon text-center">Quality Haircut</h2>
-            	<p class="lead text-white mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam quo doloribus, suscipit libero, voluptate aliquam.</p>
-            	<p><a href="#" class="btn btn-primary">Contact Us Now</a></p>
+            	<h2 class="text-white scissors primary-color-icon text-center">Le meilleur si non rien !!!</h2>
+            	<p class="lead text-white mb-5">Beaucoup d’entre vous vont chez le Barbier pour un rasage, la taille de leur barbe ou de leur moustache.
+							Barbe de 3 jours, de 10 jours ou barbe plus conséquente, ce style est très tendance y compris dans le milieu professionnel.
+
+							Quant aux femmes, beaucoup apprécient le côté viril, baroudeur ou bien même homme des cavernes !!!
+
+							La taille de la barbe débute toujours par une phase de diagnostic approfondi afin de déterminer vos besoins..
+
+							Votre Barbière écoute vos souhaits, vous accompagne dans vos choix et vous conseille, en fonction de la morphologie de votre visage, sur la structure à donner à votre barbe.</p>
+            	
           	</div>
         	</div>
       	</div>
     	</div>
+    	{% endblock %}
 
     	<footer class="site-footer">
       	<div class="container">
         	<div class="row">
           	<div class="col-lg-3">
             	<img src="images/img_1.jpg" alt="Image" class="img-fluid mb-5">
-            	<h2 class="footer-heading mb-3">About Us</h2>
-               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+            	<h2 class="footer-heading mb-3">Amin's Hair Coiffure</h2>
+               <p>8 Rue Raymond Bellague, 77520 Donnemarie-Dontilly. Nous sommes ouvert du Mardi au Samedi 24/24 .</p>
           	</div>
           	<div class="col-lg-8 ml-auto">
             	<div class="row">
               	<div class="col-lg-6 ml-auto">
-                	<h2 class="footer-heading mb-4">Quick Links</h2>
+                	<h2 class="footer-heading mb-4">Menu</h2>
                 	<ul class="list-unstyled">
-                  	<li><a href="#">About Us</a></li>
-                  	<li><a href="#">Testimonials</a></li>
-                  	<li><a href="#">Terms of Service</a></li>
-                  	<li><a href="#">Privacy</a></li>
-                  	<li><a href="#">Contact Us</a></li>
+                  	<li><a href="{{ path('service_index') }}">Accueil</a></li>
+                  	<li><a href="{{ path('service_service') }}">Nos prestations</a></li>
+                  	<li><a href="{{ path('service_about') }}">Qui sommes nous</a></li>
+                  	<li><a href="{{ path('login_or_registration') }}">Connexion/Inscription</a></li>
                 	</ul>
-              	</div>
-              	<div class="col-lg-6">
-                	<h2 class="footer-heading mb-4">Newsletter</h2>
-                	<form action="#" class="d-flex" class="subscribe">
-                  	<input type="text" class="form-control mr-3" placeholder="Email">
-                  	<input type="submit" value="Send" class="btn btn-primary">
-                	</form>
               	</div> 
             	</div>
           	</div>
@@ -136,6 +137,25 @@
     <script src="{{ asset('js/aos.js') }}"></script>
 
     <script src="{{ asset('js/main.js') }}"></script>
+
+    <script type="text/javascript">
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
+    </script>
 
   </body>
 </html>
