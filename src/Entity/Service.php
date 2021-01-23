@@ -44,6 +44,12 @@ class Service
      */
     private $bookings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Paginator::class, inversedBy="services")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $paginator;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -128,6 +134,18 @@ class Service
                 $booking->setService(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaginator(): ?Paginator
+    {
+        return $this->paginator;
+    }
+
+    public function setPaginator(?Paginator $paginator): self
+    {
+        $this->paginator = $paginator;
 
         return $this;
     }

@@ -84,12 +84,12 @@
       	</div>
     	</div>
     	{% endblock %}
-
+ 
     	<footer class="site-footer">
       	<div class="container">
         	<div class="row">
           	<div class="col-lg-3">
-            	<img src="images/img_1.jpg" alt="Image" class="img-fluid mb-5">
+            	
             	<h2 class="footer-heading mb-3">Amin's Hair Coiffure</h2>
                <p>8 Rue Raymond Bellague, 77520 Donnemarie-Dontilly. Nous sommes ouvert du Mardi au Samedi 24/24 .</p>
           	</div>
@@ -99,7 +99,7 @@
                 	<h2 class="footer-heading mb-4">Menu</h2>
                 	<ul class="list-unstyled">
                   	<li><a href="{{ path('service_index') }}">Accueil</a></li>
-                  	<li><a href="{{ path('service_service') }}">Nos prestations</a></li>
+                  	<li><a href="{{ path('service_service', {'page': 1}) }}">Nos prestations</a></li>
                   	<li><a href="{{ path('service_about') }}">Qui sommes nous</a></li>
                   	<li><a href="{{ path('login_or_registration') }}">Connexion/Inscription</a></li>
                 	</ul>
@@ -111,9 +111,7 @@
           	<div class="col-md-12">
             	<div class="border-top pt-5">
               	<p>
-            			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            			Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            			
             		</p>
             	</div>
           	</div>
@@ -139,22 +137,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
 
     <script type="text/javascript">
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-      // Get the element with id="defaultOpen" and click on it
-      document.getElementById("defaultOpen").click();
+    {% include 'java.html.twig' %}
     </script>
 
   </body>

@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
+use App\Entity\Paginator;
+use App\Form\PaginatorType;
+use App\Repository\PaginatorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,13 +43,29 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/service", name="service_service", methods={"GET"})
+     * @Route("/service/{page}", name="service_service", methods={"GET"})
      */
-    public function service(ServiceRepository $serviceRepository): Response
+    public function service(ServiceRepository $serviceRepository, $page): Response
     {
+        $nombreMaxParPage = 6;
+        $nombreMax = 6;
+        $firstResult = ($page-1) * $nombreMaxParPage;
+        //Cette variable stock la fonction située dans le repository commentaire et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
+        $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
+
+        //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
+        $findAllPage = $serviceRepository->findAllPage($page, $nombreMaxParPage);
+        
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($findAllPage) / $nombreMaxParPage),
+            'nomRoute' => 'service_service',
+            'paramsRoute' => array()
+        );
         return $this->render('service/service.html.twig', [
-            'services' => $serviceRepository->findAll(),
+            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination
         ]);
+
     }
 
     #[Route('/new', name: 'service_new', methods: ['GET', 'POST'])]
