@@ -3,7 +3,7 @@
 <div class="site-section bg-light">
       <div class="container">
         <div class="row">
-          {% for service in services %}
+          {% for service in nombreService %}
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="post-entry-1 h-100">
               <a href="single.html">
@@ -21,10 +21,7 @@
           {% endfor %}
           
          	<div class="col-12 mt-5 text-center">
-            <span class="p-3">1</span>
-            <a href="#" class="p-3">2</a>
-            <a href="#" class="p-3">3</a>
-            <a href="#" class="p-3">4</a>
+            {% include 'paginator/show.html.twig' %}
           </div>
         </div>
       </div>
