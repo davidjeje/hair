@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 namespace App\Form;
@@ -23,3 +24,30 @@ class ImageType extends AbstractType
         ]);
     }
 }
+=======
+<?php
+
+namespace App\Form;
+
+use App\Entity\Image;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ImageType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('name')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Image::class,
+        ]);
+    }
+}
+>>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb

@@ -6,9 +6,13 @@ use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Repository\ImageRepository;
 =======
 >>>>>>> paginator
+=======
+use App\Repository\ImageRepository;
+>>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
 use App\Entity\Paginator;
 use App\Form\PaginatorType;
 use App\Repository\PaginatorRepository;
@@ -51,15 +55,20 @@ class ServiceController extends AbstractController
      * @Route("/service/{page}", name="service_service", methods={"GET"})
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
 =======
     public function service(ServiceRepository $serviceRepository, $page): Response
 >>>>>>> paginator
+=======
+    public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
+>>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
     {
         $nombreMaxParPage = 6;
         $nombreMax = 6;
         $firstResult = ($page-1) * $nombreMaxParPage;
         //Cette variable stock la fonction située dans le repository commentaire et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
+<<<<<<< HEAD
 <<<<<<< HEAD
         $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
 
@@ -76,20 +85,26 @@ class ServiceController extends AbstractController
             /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
 =======
         $nombreService = $serviceRepository->nombreService($firstResult, $nombreMax);
+=======
+        $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
+>>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
 
         //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
-        $findAllPaginator = $serviceRepository->findAllPaginator($page, $nombreMaxParPage);
+        $findAllPage = $serviceRepository->findAllPage($page, $nombreMaxParPage);
         
         $pagination = array(
             'page' => $page,
-            'nbPages' => ceil(count($findAllPaginator) / $nombreMaxParPage),
+            'nbPages' => ceil(count($findAllPage) / $nombreMaxParPage),
             'nomRoute' => 'service_service',
             'paramsRoute' => array()
         );
-
         return $this->render('service/service.html.twig', [
+<<<<<<< HEAD
             /*'services' => $serviceRepository->findAll(),*/ 'nombreService' => $nombreService,'pagination' => $pagination
 >>>>>>> paginator
+=======
+            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
+>>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
         ]);
 
     }
