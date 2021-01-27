@@ -1,7 +1,87 @@
 <!doctype html>
 <html lang="fr">
+      {% block site0 %}
+        <head>
+    <title>Salon</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  {% include 'head.html.twig' %}
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/flaticon/font/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sourcesanspro-font.css') }}">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="{{ asset('css/style2.css') }}"/>
+  </head>
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+   
+    <div class="site-wrap" id="home-section">
+
+      <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+          <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+          </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+
+      <header class="site-navbar site-navbar-target" role="banner">
+
+        <div class="container">
+          <div class="row align-items-center position-relative">
+
+            <div class="col-3 ">
+              <div class="site-logo">
+                <a href="index.html">Amin's Hair Coiffure</a>
+              </div>
+            </div> 
+
+            <div class="col-9  text-right">
+              
+              <span class="d-inline-block d-lg-none"><a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white"><span class="icon-menu h3 text-white"></span></a></span>
+              <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+                <ul class="site-menu main-menu js-clone-nav ml-auto ">
+                  <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
+                  <li><a href="{{ path('service_service', {'page': 1}) }}" class="nav-link">Nos prestations</a></li>
+                  <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
+                  <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
+                </ul>
+              </nav>
+              
+            </div>    
+          </div>
+        </div>
+
+      </header> 
+
+      <div class="ftco-blocks-cover-1">
+        <div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('{{ asset('images/'~picture.name) }}')">
+          <div class="container">
+            <div class="row align-items-center justify-content-center text-center">
+              <div class="col-md-7">
+                <h1 class="mb-3">Cheveux et Barbe</h1>
+                <p>Coiffeur uniquement pour les hommes.</p>
+                <p><a href="{{ path('service_about') }}" class="btn btn-primary">Plus d'info</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock %} 
 
     	{% block site1 %}
     	<div class="site-section">
@@ -65,7 +145,7 @@
     	{% endblock %}
 
     	{% block site3 %}
-    	<div class="site-section section-3" data-stellar-background-ratio="0.5" style="background-image: url('images/hero_1.jpg');">
+    	<div class="site-section section-3" data-stellar-background-ratio="0.5" style="background-image: url('{{ asset('images/'~picture.name) }}');">
       	<div class="container">
         	<div class="row justify-content-center text-center">
           	<div class="col-7 text-center mb-5">

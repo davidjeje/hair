@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
+use App\Repository\ImageRepository;
 use App\Entity\Paginator;
 use App\Form\PaginatorType;
 use App\Repository\PaginatorRepository;
@@ -19,33 +20,34 @@ class ServiceController extends AbstractController
     /**
      * @Route("/", name="service_index", methods={"GET"})
      */
-    public function index(ServiceRepository $serviceRepository): Response
+    public function index(ServiceRepository $serviceRepository, ImageRepository $imageRepository): Response
     {
+        
         return $this->render('service/index.html.twig', [
-            'services' => $serviceRepository->findAll(),
+            'services' => $serviceRepository->findAll(), 'picture' => $imageRepository->findOneBySomeField(1)
         ]);
     }
 
     /**
      * @Route("/about", name="service_about", methods={"GET"})
      */
-    public function about(): Response
+    public function about(ImageRepository $imageRepository): Response
     {
-        return $this->render('service/about.html.twig');
+        return $this->render('service/about.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
     }
 
     /**
      * @Route("/login", name="login_or_registration", methods={"GET"})
      */
-    public function loginOrRegistration(): Response
+    public function loginOrRegistration(ImageRepository $imageRepository): Response
     {
-        return $this->render('service/loginOrRegistration.html.twig');
+        return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
     }
 
     /**
      * @Route("/service/{page}", name="service_service", methods={"GET"})
      */
-    public function service(ServiceRepository $serviceRepository, $page): Response
+    public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
     {
         $nombreMaxParPage = 6;
         $nombreMax = 6;
@@ -63,7 +65,7 @@ class ServiceController extends AbstractController
             'paramsRoute' => array()
         );
         return $this->render('service/service.html.twig', [
-            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination
+            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
         ]);
 
     }
@@ -90,12 +92,12 @@ class ServiceController extends AbstractController
     } 
 
     /**
-     * @Route("/{id}", name="service_show", methods={"GET"})
+     * @Route("/details/{id}", name="service_show", methods={"GET"})
      */
-    public function show(Service $service): Response
+    public function show(Service $service, ImageRepository $imageRepository): Response
     {
         return $this->render('service/show.html.twig', [
-            'service' => $service,
+            'service' => $service, 'picture' => $imageRepository->findOneBySomeField(1)
         ]);
     }
 
