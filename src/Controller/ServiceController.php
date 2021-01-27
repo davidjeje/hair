@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
+<<<<<<< HEAD
 use App\Repository\ImageRepository;
+=======
+>>>>>>> paginator
 use App\Entity\Paginator;
 use App\Form\PaginatorType;
 use App\Repository\PaginatorRepository;
@@ -47,12 +50,17 @@ class ServiceController extends AbstractController
     /**
      * @Route("/service/{page}", name="service_service", methods={"GET"})
      */
+<<<<<<< HEAD
     public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
+=======
+    public function service(ServiceRepository $serviceRepository, $page): Response
+>>>>>>> paginator
     {
         $nombreMaxParPage = 6;
         $nombreMax = 6;
         $firstResult = ($page-1) * $nombreMaxParPage;
         //Cette variable stock la fonction située dans le repository commentaire et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
+<<<<<<< HEAD
         $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
 
         //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
@@ -66,6 +74,22 @@ class ServiceController extends AbstractController
         );
         return $this->render('service/service.html.twig', [
             /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
+=======
+        $nombreService = $serviceRepository->nombreService($firstResult, $nombreMax);
+
+        //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
+        $findAllPaginator = $serviceRepository->findAllPaginator($page, $nombreMaxParPage);
+        
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($findAllPaginator) / $nombreMaxParPage),
+            'nomRoute' => 'service_service',
+            'paramsRoute' => array()
+        );
+
+        return $this->render('service/service.html.twig', [
+            /*'services' => $serviceRepository->findAll(),*/ 'nombreService' => $nombreService,'pagination' => $pagination
+>>>>>>> paginator
         ]);
 
     }

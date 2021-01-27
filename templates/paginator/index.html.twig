@@ -10,8 +10,13 @@
             <tr>
                 <th>Id</th>
                 <th>Page</th>
+<<<<<<< HEAD
                 <th>NbPage</th>
                 <th>NameRoute</th>
+=======
+                <th>NbPages</th>
+                <th>NomRoute</th>
+>>>>>>> paginator
                 <th>ParamsRoute</th>
                 <th>actions</th>
             </tr>
@@ -21,8 +26,13 @@
             <tr>
                 <td>{{ paginator.id }}</td>
                 <td>{{ paginator.page }}</td>
+<<<<<<< HEAD
                 <td>{{ paginator.nbPage }}</td>
                 <td>{{ paginator.nameRoute }}</td>
+=======
+                <td>{{ paginator.nbPages }}</td>
+                <td>{{ paginator.nomRoute }}</td>
+>>>>>>> paginator
                 <td>{{ paginator.paramsRoute ? paginator.paramsRoute|join(', ') : '' }}</td>
                 <td>
                     <a href="{{ path('paginator_show', {'id': paginator.id}) }}">show</a>

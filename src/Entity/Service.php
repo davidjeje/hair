@@ -46,7 +46,10 @@ class Service
 
     /**
      * @ORM\ManyToOne(targetEntity=Paginator::class, inversedBy="services")
+<<<<<<< HEAD
      * @ORM\JoinColumn(nullable=false)
+=======
+>>>>>>> paginator
      */
     private $paginator;
 
