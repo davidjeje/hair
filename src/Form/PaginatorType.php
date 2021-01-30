@@ -13,13 +13,8 @@ class PaginatorType extends AbstractType
     {
         $builder
             ->add('page')
-<<<<<<< HEAD
-            ->add('nbPage')
-            ->add('nameRoute')
-=======
             ->add('nbPages')
             ->add('nomRoute')
->>>>>>> paginator
             ->add('paramsRoute')
         ;
     }

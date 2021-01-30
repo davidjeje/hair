@@ -60,7 +60,7 @@
                   <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
                   <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
                 </ul>
-              </nav>
+              </nav> 
               
             </div>    
           </div>
@@ -78,7 +78,7 @@
                 <p><a href="{{ path('service_about') }}" class="btn btn-primary">Plus d'info</a></p>
               </div>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
       {% endblock %} 
@@ -111,7 +111,14 @@
     	<div class="site-section bg-light">
     		<div class="container">
       		<div class="row justify-content-center  mb-5">
-        		<div class="col-md-7 text-center"> 
+        		<div class="col-md-7 text-center">
+            <div class="alert alert success">
+              {% for message in app.flashes('success') %} {{ message }} {% endfor %}
+            </div> 
+
+            <div class="alert alert error">
+              {% for message in app.flashes('error') %} {{ message }} {% endfor %}
+            </div> 
           		<h3 class="scissors text-center">Prestation du salon</h3>
           		<p class="mb-5 lead">
           			Vous trouverez ci-dessous tous les services que offre le salon.

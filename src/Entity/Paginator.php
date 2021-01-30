@@ -27,20 +27,13 @@ class Paginator
     /**
      * @ORM\Column(type="integer")
      */
-<<<<<<< HEAD
-    private $nbPage;
-=======
+
     private $nbPages;
->>>>>>> paginator
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-<<<<<<< HEAD
-    private $nameRoute;
-=======
     private $nomRoute;
->>>>>>> paginator
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -48,11 +41,7 @@ class Paginator
     private $paramsRoute = [];
 
     /**
-<<<<<<< HEAD
      * @ORM\OneToMany(targetEntity=Service::class, mappedBy="paginator", orphanRemoval=true)
-=======
-     * @ORM\OneToMany(targetEntity=Service::class, mappedBy="paginator")
->>>>>>> paginator
      */
     private $services;
 
@@ -78,7 +67,6 @@ class Paginator
         return $this;
     }
 
-<<<<<<< HEAD
     public function getNbPage(): ?int
     {
         return $this->nbPage;
@@ -87,30 +75,8 @@ class Paginator
     public function setNbPage(int $nbPage): self
     {
         $this->nbPage = $nbPage;
-=======
-    public function getNbPages(): ?int
-    {
-        return $this->nbPages;
     }
 
-    public function setNbPages(int $nbPages): self
-    {
-        $this->nbPages = $nbPages;
->>>>>>> paginator
-
-        return $this;
-    }
-
-<<<<<<< HEAD
-    public function getNameRoute(): ?string
-    {
-        return $this->nameRoute;
-    }
-
-    public function setNameRoute(string $nameRoute): self
-    {
-        $this->nameRoute = $nameRoute;
-=======
     public function getNomRoute(): ?string
     {
         return $this->nomRoute;
@@ -119,7 +85,6 @@ class Paginator
     public function setNomRoute(string $nomRoute): self
     {
         $this->nomRoute = $nomRoute;
->>>>>>> paginator
 
         return $this;
     }

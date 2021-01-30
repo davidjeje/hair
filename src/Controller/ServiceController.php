@@ -5,14 +5,7 @@ namespace App\Controller;
 use App\Entity\Service;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use App\Repository\ImageRepository;
-=======
->>>>>>> paginator
-=======
-use App\Repository\ImageRepository;
->>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
 use App\Entity\Paginator;
 use App\Form\PaginatorType;
 use App\Repository\PaginatorRepository;
@@ -20,6 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
+use App\Form\UserType;
+use App\Form\ProfilType;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class ServiceController extends AbstractController
@@ -44,32 +45,48 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login_or_registration", methods={"GET"})
+     * @Route("/login", name="login_or_registration", methods={"GET|POST"}) 
      */
-    public function loginOrRegistration(ImageRepository $imageRepository): Response
+    public function loginOrRegistration(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
+        $user = new User(); 
+        $form = $this->createForm(UserType::class, $user);
+        $form2 = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        $form2->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())  {
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $roles = ['ROLE_USER'];
+            $user->setPassword($password);  
+            $user->setIsActive(false);
+            $user->setIsActive(false);
+            $user->setRoles($roles);
+            
+            $orm = $this->getDoctrine()->getManager();
+            $orm->persist($user);
+            $orm->flush();
+            // Message qui s'affiche sur la boîte mail de l'utilisateur qui souhaite ouvrir un compte utilisateur.
+            
+            $this->addFlash('success', ' Félicitation !!! Bienvenu parmi nous !!! Votre compte a bien été enregistré. Vous pouvez vous connecter sur votre compte avec les informations que vous venez de renseigner pour l\'inscription.');
+
+            return $this->redirectToRoute('service_index');
+        }
+
+        return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
+            'form' => $form->createView(), 'form2' => $form2->createView()]);
     }
 
     /**
      * @Route("/service/{page}", name="service_service", methods={"GET"})
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
     public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
-=======
-    public function service(ServiceRepository $serviceRepository, $page): Response
->>>>>>> paginator
-=======
-    public function service(ServiceRepository $serviceRepository, $page, ImageRepository $imageRepository): Response
->>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
     {
         $nombreMaxParPage = 6;
         $nombreMax = 6;
         $firstResult = ($page-1) * $nombreMaxParPage;
         //Cette variable stock la fonction située dans le repository commentaire et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
 
         //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
@@ -82,31 +99,7 @@ class ServiceController extends AbstractController
             'paramsRoute' => array()
         );
         return $this->render('service/service.html.twig', [
-            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
-=======
-        $nombreService = $serviceRepository->nombreService($firstResult, $nombreMax);
-=======
-        $serviceNumber = $serviceRepository->serviceNumber($firstResult, $nombreMax);
->>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
-
-        //Cette variable stock la fonction située dans le repository paginator et qui elle même stock des valeurs pour lui permettre d'afficher un nombre de commentaire par figure et par page.
-        $findAllPage = $serviceRepository->findAllPage($page, $nombreMaxParPage);
-        
-        $pagination = array(
-            'page' => $page,
-            'nbPages' => ceil(count($findAllPage) / $nombreMaxParPage),
-            'nomRoute' => 'service_service',
-            'paramsRoute' => array()
-        );
-        return $this->render('service/service.html.twig', [
-<<<<<<< HEAD
-            /*'services' => $serviceRepository->findAll(),*/ 'nombreService' => $nombreService,'pagination' => $pagination
->>>>>>> paginator
-=======
-            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)
->>>>>>> b1fcc66bb9e47b395886006dd5cb330f882f94fb
-        ]);
-
+            /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)]);
     }
 
     #[Route('/new', name: 'service_new', methods: ['GET', 'POST'])]

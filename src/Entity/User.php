@@ -6,12 +6,18 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+//use Symfony\Component\Security\Core\User\UserInterface::getSalt;
+//use Symfony\Component\Security\Core\User\UserInterface::getUsername;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -48,6 +54,7 @@ class User
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->isActive = false;
     }
 
     public function getId(): ?int
@@ -131,5 +138,53 @@ class User
         }
 
         return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->name;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(
+            array(
+            $this->id,
+            $this->name,
+            $this->password,
+            $this->isActive,
+                // see section on salt below
+                // $this->salt,
+            )
+        );
+    } 
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list(
+                $this->id,
+                $this->name,
+                $this->password,
+                $this->isActive,
+                // see section on salt below
+                // $this->salt
+                ) = unserialize($serialized);
     }
 }
