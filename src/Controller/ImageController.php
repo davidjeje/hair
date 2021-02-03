@@ -66,7 +66,7 @@ class ImageController extends AbstractController
             'image' => $image,
             'form' => $form->createView(),
         ]);
-    }
+    } 
 
     #[Route('/{id}', name: 'image_delete', methods: ['DELETE'])]
     public function delete(Request $request, Image $image): Response

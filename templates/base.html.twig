@@ -59,10 +59,13 @@
                   <li><a href="{{ path('service_service', {'page': 1}) }}" class="nav-link">Nos prestations</a></li>
                   <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
                   <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
+                  {% if is_granted('ROLE_USER')  %}
+                  <li><a href="{{ path('app_logout') }}" class="nav-link">Déconnexion</a></li>
+                  {% endif %}
                 </ul>
               </nav> 
               
-            </div>    
+            </div>     
           </div>
         </div>
 

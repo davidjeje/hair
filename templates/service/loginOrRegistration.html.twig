@@ -16,7 +16,11 @@
               <button class="tablinks" onclick="openCity(event, 'sign-in')">Se connecter</button>
             </div> 
           </div>
-          <form class="form-detail" action="#" method="post">
+          {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+          {% endif %}
+          <form class="form-detail" action="{{ path('login_or_registration') }}" method="post">
             {{form_start(form)}}
             <div class="tabcontent" id="sign-up">
               <div class="form-row">
@@ -36,22 +40,25 @@
             {{form_end(form)}}
           </form>
 
-          <form class="form-detail" action="#" method="post">
-            {{form_start(form2)}}
+          <form class="form-detail" action="{{ path('app_login') }}" method="post">
+            
             <div class="tabcontent" id="sign-in">
               <div class="form-row">
-                {{ form_label(form2.name) }}
-                {{ form_widget(form2.name) }}
+                <label for="inputName">Name</label>
+                <input type="text" value="{{ last_username }}" name="name" id="inputName"  required autofocus>
               </div>
               <div class="form-row">
-                {{ form_label(form2.password) }}
-                {{ form_widget(form2.password) }}
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" required>
               </div>
               <div class="form-row-last">
-                <input type="submit" name="register" class="register" value="Connection">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button class="btn btn-lg btn-primary" type="submit">
+                  Connection
+                </button>
               </div>
             </div>
-            {{form_end(form2)}}
+            
           </form>
         </div>
       </div>

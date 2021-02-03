@@ -1,60 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block site1 %}
-<<<<<<< HEAD
 <div class="site-section bg-light"> 
-			<div class="container">
-				<div class="row">
-					
-					{% for service in serviceNumber %}
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="post-entry-1 h-100">
-							<a href="single.html">
-								<img src="{{ asset('images/'~service.image) }}" alt="Image"
+	<div class="container">
+		<div class="row">			
+			{% for service in serviceNumber %}
+			<div class="col-lg-4 col-md-6 mb-4">
+				<div class="post-entry-1 h-100">
+					<a href="single.html">
+						<img src="{{ asset('images/'~service.image) }}" alt="Image"
 								 class="img-fluid">
-							</a>
-							<div class="post-entry-1-contents">
+					</a>
+					<div class="post-entry-1-contents">
 								
-								<h2><a href="single.html">{{service.name}}</a></h2>
-								<span class="meta d-inline-block mb-3">{{service.price}}€</span>
-								<p><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-primary">Plus d'info</a></p>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-					
-					<div class="col-12 mt-5 text-center">
-						{% include 'paginator/show.html.twig' %}
+						<h2><a href="single.html">{{service.name}}</a></h2>
+							<span class="meta d-inline-block mb-3">{{service.price}}€</span>
+							<p><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-primary">Plus d'info</a></p>
 					</div>
 				</div>
 			</div>
+			{% endfor %}
+					
+			<div class="col-12 mt-5 text-center">
+				{% include 'paginator/show.html.twig' %}
+			</div>
 		</div>
-=======
-<div class="site-section bg-light">
-      <div class="container">
-        <div class="row">
-          {% for service in nombreService %}
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="post-entry-1 h-100">
-              <a href="single.html">
-                <img src="{{ asset('images/'~service.image) }}" alt="Image"
-                 class="img-fluid">
-              </a>
-              <div class="post-entry-1-contents">
-                
-                <h2><a href="single.html">{{service.name}}</a></h2>
-                <span class="meta d-inline-block mb-3">{{service.price}}€</span>
-                <p><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-primary">Plus d'info</a></p>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-          
-         	<div class="col-12 mt-5 text-center">
-            {% include 'paginator/show.html.twig' %}
-          </div>
-        </div>
-      </div>
-    </div>
->>>>>>> paginator
+	</div>
+</div>
+
 {% endblock %}
 {% block site2 %}{% endblock %}

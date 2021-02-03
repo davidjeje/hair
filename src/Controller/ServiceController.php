@@ -22,7 +22,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-
 class ServiceController extends AbstractController
 {
     /**
@@ -45,21 +44,23 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login_or_registration", methods={"GET|POST"}) 
+     * @Route("/login1", name="login_or_registration", methods={"GET|POST"}) 
      */
-    public function loginOrRegistration(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function loginOrRegistration(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils): Response
     {
         $user = new User(); 
         $form = $this->createForm(UserType::class, $user);
-        $form2 = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        $form2->handleRequest($request);
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
 
         if ($form->isSubmitted() && $form->isValid())  {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $roles = ['ROLE_USER'];
             $user->setPassword($password);  
-            $user->setIsActive(false);
             $user->setIsActive(false);
             $user->setRoles($roles);
             
@@ -72,9 +73,47 @@ class ServiceController extends AbstractController
 
             return $this->redirectToRoute('service_index');
         }
-
+        
         return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
-            'form' => $form->createView(), 'form2' => $form2->createView()]);
+            'form' => $form->createView(), 'last_username' => $lastUsername, 'error' => $error]); 
+    }
+
+    /**
+     * @Route("/login2", name="login", methods="GET|POST")
+     */
+    public function login(AuthenticationUtils $authenticationUtils)
+    {
+        /*$form2 = $this->createForm(UserType::class, $user);
+
+        $form2->handleRequest($request);*/
+
+        $form2 = $this->get('form.factory')
+            ->createNamedBuilder('')
+            ->add('username', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'name'])
+            ->add('password', \Symfony\Component\Form\Extension\Core\Type\PasswordType::class, ['label' => 'Mot de passe'])
+                 
+            ->getForm();
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+        
+
+        if ($form2->isSubmitted() && $form2->isValid()) {
+            $session = new Session();
+            $session->start();
+            return $this->redirectToRoute('service_index');
+        } 
+        return $this->render(
+            'service/loginOrRegistration.html.twig',
+            [
+                    'mainNavLogin' => true,
+                    'title' => 'Connexion',
+                    'form' => $form2->createView(),
+                    'last_username' => $lastUsername,
+                    'error' => $error,
+            ]
+        ); 
     }
 
     /**
@@ -100,6 +139,22 @@ class ServiceController extends AbstractController
         );
         return $this->render('service/service.html.twig', [
             /*'services' => $serviceRepository->findAll(),*/'serviceNumber' => $serviceNumber, 'pagination' => $pagination, 'picture' => $imageRepository->findOneBySomeField(1)]);
+    }
+
+    /**
+     * @Route("/logout/user", name="logout", methods="GET|POST")
+     */
+    public function logout(): Response
+    {
+        
+        return $this->render(
+            'service/index.html.twig',
+            [
+                    'mainNavLogin' => false,
+                    'title' => 'Deconnexion',
+                    'error' => null,
+            ]
+        );
     }
 
     #[Route('/new', name: 'service_new', methods: ['GET', 'POST'])]
@@ -132,6 +187,7 @@ class ServiceController extends AbstractController
             'service' => $service, 'picture' => $imageRepository->findOneBySomeField(1)
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'service_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Service $service): Response

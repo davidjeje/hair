@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-//use Symfony\Component\Security\Core\User\UserInterface::getSalt;
-//use Symfony\Component\Security\Core\User\UserInterface::getUsername;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -27,12 +25,14 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -62,7 +62,7 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): ?string 
     {
         return $this->name;
     }
