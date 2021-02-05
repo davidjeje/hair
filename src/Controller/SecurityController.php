@@ -12,6 +12,8 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\ProfilType;
 use App\Repository\UserRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class SecurityController extends AbstractController
 {

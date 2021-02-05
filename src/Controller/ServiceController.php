@@ -21,6 +21,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class ServiceController extends AbstractController
 {
@@ -46,7 +51,7 @@ class ServiceController extends AbstractController
     /**
      * @Route("/login1", name="login_or_registration", methods={"GET|POST"}) 
      */
-    public function loginOrRegistration(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils): Response
+    public function loginOrRegistration(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils, MailerInterface $mailer): Response
     {
         $user = new User(); 
         $form = $this->createForm(UserType::class, $user);
@@ -55,7 +60,7 @@ class ServiceController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        $submittedToken = $request->request->get('token');
 
         if ($form->isSubmitted() && $form->isValid())  {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
@@ -63,19 +68,82 @@ class ServiceController extends AbstractController
             $user->setPassword($password);  
             $user->setIsActive(false);
             $user->setRoles($roles);
+            $user->setToken($submittedToken);
             
             $orm = $this->getDoctrine()->getManager();
             $orm->persist($user);
             $orm->flush();
-            // Message qui s'affiche sur la boîte mail de l'utilisateur qui souhaite ouvrir un compte utilisateur.
+
+            $emailUser = $user->getEmail();
+            $submittedToken = $request->request->get('token');
+
+            /*$message = (new \Swift_Message('Nous vous souhaitons la bienvenu. Clic sur le lien pour valider ton inscription ! A bientôt !!!'))
+                ->setFrom('dada.pepe.alal@gmail.com')
+                ->setTo($email)
+                ->setBody(
+                    $this->renderView(
+                        'service/mail.html.twig',
+                        ['submittedToken' => $submittedToken]
+                    ),
+                    'text/html'
+                ); 
+
+            $mailer->send($message);*/
+            /*$email = (new Email())
+            ->from('dada.pepe.alal@gmail.com')
+            ->to($emailUser)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');*/
+            $email = (new TemplatedEmail())
+            ->from('dada.pepe.alal@gmail.com')
+            ->to(new Address($emailUser))
+            ->subject('Thanks for signing up!')
+
+            // path of the Twig template to render
+            ->htmlTemplate('service/mail.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+            'submittedToken' => $submittedToken,
+            ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                //'error message or try to resend the message'
+            };
             
-            $this->addFlash('success', ' Félicitation !!! Bienvenu parmi nous !!! Votre compte a bien été enregistré. Vous pouvez vous connecter sur votre compte avec les informations que vous venez de renseigner pour l\'inscription.');
+            $this->addFlash('success', ' Félicitation !!! Bienvenu parmi nous !!! Votre compte a bien été enregistré. Pour finaliser l\'inscription, rendez-vous sur votre boîte mail et clic sur le lien. A bienôt !!!');
 
             return $this->redirectToRoute('service_index');
         }
         
         return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
             'form' => $form->createView(), 'last_username' => $lastUsername, 'error' => $error]); 
+    }
+
+    /**
+     * @Route("/validate/{submittedToken}", name="validate", methods="GET|POST")
+     */
+    public function validateAccount(UserRepository $userRepository, Request $request, $submittedToken)
+    {
+        //$token = $request->request->get("submittedToken");
+        /*var_dump($submittedToken);
+        die();*/
+        //$user = $userRepository->findOneBy(array("submittedToken"=>$submittedToken));
+        $user = $userRepository->findOneBySomeField($submittedToken);
+        //Son compte utilisateur est actif.
+        $user->setIsActive(true);
+        $orm = $this->getDoctrine()->getManager();
+        $orm->persist($user);
+        $orm->flush();
+        
+        return $this->redirectToRoute('service_index');
     }
 
     /**

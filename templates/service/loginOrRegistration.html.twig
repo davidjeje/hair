@@ -25,11 +25,27 @@
             <div class="tabcontent" id="sign-up">
               <div class="form-row">
                 {{ form_label(form.name) }}
-                {{ form_widget(form.name, ) }}
+                {{ form_widget(form.name ) }}
               </div>
               <div class="form-row">
-                {{ form_label(form.password) }}
-                {{ form_widget(form.password, ) }}
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email ) }}
+              </div>
+              <div class="form-row">
+                {{ form_label(form.number) }}
+                {{ form_widget(form.number ) }}
+              </div>
+              <div class="form-row">
+                {{ form_label(form.password.first) }}
+                {{ form_widget(form.password.first ) }}
+              </div>
+              <div class="form-row">
+                {{ form_label(form.password.second) }}
+                {{ form_widget(form.password.second ) }}
+              </div>
+
+              <div class="form-row">
+                <input type="hidden" name="token" value="{{ csrf_token('validateUser') }}"/>
               </div>
               
               <div class="form-row-last">

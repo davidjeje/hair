@@ -51,6 +51,21 @@ class User implements UserInterface, \Serializable
      */
     private $bookings;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $number;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -167,8 +182,9 @@ class User implements UserInterface, \Serializable
             $this->name,
             $this->password,
             $this->isActive,
-                // see section on salt below
-                // $this->salt,
+            $this->email,
+            $this->number,
+                
             )
         );
     } 
@@ -183,8 +199,44 @@ class User implements UserInterface, \Serializable
                 $this->name,
                 $this->password,
                 $this->isActive,
-                // see section on salt below
-                // $this->salt
+                $this->email,
+                $this->number,
                 ) = unserialize($serialized);
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
     }
 }
