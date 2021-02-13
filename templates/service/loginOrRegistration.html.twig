@@ -16,10 +16,8 @@
               <button class="tablinks" onclick="openCity(event, 'sign-in')">Se connecter</button>
             </div> 
           </div>
-          {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-          {% endif %}
+          
+          
           <form class="form-detail" action="{{ path('login_or_registration') }}" method="post">
             {{form_start(form)}}
             <div class="tabcontent" id="sign-up">
@@ -47,7 +45,7 @@
               <div class="form-row">
                 <input type="hidden" name="token" value="{{ csrf_token('validateUser') }}"/>
               </div>
-              
+              <br>
               <div class="form-row-last">
                 <input type="submit" name="register" class="register" href="{{ path('login_or_registration')}}" value="Enregistrement">
                 
@@ -69,9 +67,11 @@
               </div>
               <div class="form-row-last">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <br>
                 <button class="btn btn-lg btn-primary" type="submit">
                   Connection
                 </button>
+                <br><br><a href="{{ path('connectionLink') }}">Mot de passe oublié</a>
               </div>
             </div>
             

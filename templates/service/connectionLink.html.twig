@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block site1 %}
+<div class="site-section bg-light" id="contact-section">
+  <div class="container">
+		<div class="page-content">
+      <div class="form-v8-content">
+        <div class="form-left">
+          <img src="images/form-v8.jpg" alt="form">
+        </div>
+        <div class="form-right">
+          <div class="tab">
+            
+            <div class="tab-inner">
+              <button class="tablinks" onclick="openCity(event, 'sign-in')">Se connecter</button>
+            </div> 
+          </div>
+
+          <form class="form-detail" action="{{ path('secu_login') }}" method="post">
+            
+            <div class="tabcontent" id="sign-in">
+              <div class="form-row">
+                <label for="inputEmail">Email</label>
+                <input type="email"  name="email" id="inputEmail"  required autofocus>
+              </div>
+              
+              <div class="form-row-last">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <br>
+                <button class="btn btn-lg btn-primary" type="submit">
+                  Connection
+                </button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>     
+</div>
+{% endblock %}
+{% block site2 %}{% endblock %}
+{% block site3 %}{% endblock %}

@@ -27,6 +27,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 
+
 class ServiceController extends AbstractController
 {
     /**
@@ -60,14 +61,16 @@ class ServiceController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
-        $submittedToken = $request->request->get('token');
 
         if ($form->isSubmitted() && $form->isValid())  {
+            /*var_dump($user->getEmail());
+            die();*/
+            $submittedToken = $request->request->get('token');
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $roles = ['ROLE_USER'];
+            //$roles = ['ROLE_USER'];
             $user->setPassword($password);  
             $user->setIsActive(false);
-            $user->setRoles($roles);
+            //$user->setRoles($roles);
             $user->setToken($submittedToken);
             
             $orm = $this->getDoctrine()->getManager();
@@ -75,7 +78,6 @@ class ServiceController extends AbstractController
             $orm->flush();
 
             $emailUser = $user->getEmail();
-            $submittedToken = $request->request->get('token');
 
             /*$message = (new \Swift_Message('Nous vous souhaitons la bienvenu. Clic sur le lien pour valider ton inscription ! A bientôt !!!'))
                 ->setFrom('dada.pepe.alal@gmail.com')
@@ -102,7 +104,7 @@ class ServiceController extends AbstractController
             $email = (new TemplatedEmail())
             ->from('dada.pepe.alal@gmail.com')
             ->to(new Address($emailUser))
-            ->subject('Thanks for signing up!')
+            ->subject('Valider votre inscription')
 
             // path of the Twig template to render
             ->htmlTemplate('service/mail.html.twig')
@@ -118,7 +120,7 @@ class ServiceController extends AbstractController
                 //'error message or try to resend the message'
             };
             
-            $this->addFlash('success', ' Félicitation !!! Bienvenu parmi nous !!! Votre compte a bien été enregistré. Pour finaliser l\'inscription, rendez-vous sur votre boîte mail et clic sur le lien. A bienôt !!!');
+            $this->addFlash('success', ' Félicitations ! Bienvenu parmi nous ! Votre compte a bien été enregistré. Pour finaliser l\'inscription, rendez-vous sur votre boîte mail et clicker sur le lien. À bientôt !!');
 
             return $this->redirectToRoute('service_index');
         }
@@ -132,13 +134,12 @@ class ServiceController extends AbstractController
      */
     public function validateAccount(UserRepository $userRepository, Request $request, $submittedToken)
     {
-        //$token = $request->request->get("submittedToken");
-        /*var_dump($submittedToken);
-        die();*/
-        //$user = $userRepository->findOneBy(array("submittedToken"=>$submittedToken));
+        
         $user = $userRepository->findOneBySomeField($submittedToken);
         //Son compte utilisateur est actif.
         $user->setIsActive(true);
+        $roles = ['ROLE_USER'];
+        $user->setRoles($roles);
         $orm = $this->getDoctrine()->getManager();
         $orm->persist($user);
         $orm->flush();
@@ -147,41 +148,12 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/login2", name="login", methods="GET|POST")
+     * @Route("/connectionLink", name="connectionLink", methods="GET|POST")
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function connectionLink(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils, MailerInterface $mailer)
     {
-        /*$form2 = $this->createForm(UserType::class, $user);
 
-        $form2->handleRequest($request);*/
-
-        $form2 = $this->get('form.factory')
-            ->createNamedBuilder('')
-            ->add('username', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'name'])
-            ->add('password', \Symfony\Component\Form\Extension\Core\Type\PasswordType::class, ['label' => 'Mot de passe'])
-                 
-            ->getForm();
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        $lastUsername = $authenticationUtils->getLastUsername();
-        
-
-        if ($form2->isSubmitted() && $form2->isValid()) {
-            $session = new Session();
-            $session->start();
-            return $this->redirectToRoute('service_index');
-        } 
-        return $this->render(
-            'service/loginOrRegistration.html.twig',
-            [
-                    'mainNavLogin' => true,
-                    'title' => 'Connexion',
-                    'form' => $form2->createView(),
-                    'last_username' => $lastUsername,
-                    'error' => $error,
-            ]
-        ); 
+        return $this->render('service/connectionLink.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), /*'user' => $user, 'last_username' => $lastUsername, 'error' => $error*/]);
     }
 
     /**

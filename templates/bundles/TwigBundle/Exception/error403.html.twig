@@ -1,0 +1,12 @@
+{# templates/bundles/TwigBundle/Exception/error403.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block site1 %}
+    <h1>Inscription non terminé</h1>
+
+    <p>
+        Pour accéder à votre compte utilisateur, je vous invite à vous rendre sur votre boîte email et click sur le lien : <a href="{{ path('service_index') }}">retour sur la page d'accueil</a>.
+    </p>
+{% endblock %}
+{% block site2 %}{% endblock %}
+{% block site3 %}{% endblock %} 
