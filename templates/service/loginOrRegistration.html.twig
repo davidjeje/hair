@@ -1,85 +1,40 @@
 {% extends 'base.html.twig' %}
 {% block site1 %}
-<div class="site-section bg-light" id="contact-section">
-  <div class="container">
-		<div class="page-content">
-      <div class="form-v8-content">
-        <div class="form-left">
-          <img src="images/form-v8.jpg" alt="form">
+<div class="wrapper" style="background-image: url('{{ asset('images/bg-registration-form-2') }}');">
+  <div class="inner">
+    <form action="{{ path('login_or_registration') }}" method="post">
+      {{form_start(form)}}
+      <h3>Inscription</h3>
+      <div class="form-group">
+        <div class="form-wrapper">
+          {{ form_label(form.name) }}
+          {{ form_widget(form.name ) }} 
         </div>
-        <div class="form-right">
-          <div class="tab">
-            <div class="tab-inner">
-              <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">S'inscrire</button>
-            </div>
-            <div class="tab-inner">
-              <button class="tablinks" onclick="openCity(event, 'sign-in')">Se connecter</button>
-            </div> 
-          </div>
-          
-          
-          <form class="form-detail" action="{{ path('login_or_registration') }}" method="post">
-            {{form_start(form)}}
-            <div class="tabcontent" id="sign-up">
-              <div class="form-row">
-                {{ form_label(form.name) }}
-                {{ form_widget(form.name ) }}
-              </div>
-              <div class="form-row">
-                {{ form_label(form.email) }}
-                {{ form_widget(form.email ) }}
-              </div>
-              <div class="form-row">
-                {{ form_label(form.number) }}
-                {{ form_widget(form.number ) }}
-              </div>
-              <div class="form-row">
-                {{ form_label(form.password.first) }}
-                {{ form_widget(form.password.first ) }}
-              </div>
-              <div class="form-row">
-                {{ form_label(form.password.second) }}
-                {{ form_widget(form.password.second ) }}
-              </div>
-
-              <div class="form-row">
-                <input type="hidden" name="token" value="{{ csrf_token('validateUser') }}"/>
-              </div>
-              <br>
-              <div class="form-row-last">
-                <input type="submit" name="register" class="register" href="{{ path('login_or_registration')}}" value="Enregistrement">
-                
-              </div>
-            </div>
-            {{form_end(form)}}
-          </form>
-
-          <form class="form-detail" action="{{ path('app_login') }}" method="post">
-            
-            <div class="tabcontent" id="sign-in">
-              <div class="form-row">
-                <label for="inputName">Name</label>
-                <input type="text" value="{{ last_username }}" name="name" id="inputName"  required autofocus>
-              </div>
-              <div class="form-row">
-                <label for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword" required>
-              </div>
-              <div class="form-row-last">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <br>
-                <button class="btn btn-lg btn-primary" type="submit">
-                  Connection
-                </button>
-                <br><br><a href="{{ path('connectionLink') }}">Mot de passe oublié</a>
-              </div>
-            </div>
-            
-          </form>
+        <div class="form-wrapper">
+          {{ form_label(form.email) }}
+          {{ form_widget(form.email ) }}
         </div>
       </div>
-    </div>
-  </div>     
+      <div class="form-wrapper">
+        {{ form_label(form.number) }}
+        {{ form_widget(form.number ) }}
+      </div>
+      <div class="form-wrapper">
+        {{ form_label(form.password.first) }}
+        {{ form_widget(form.password.first ) }}
+      </div>
+      <div class="form-wrapper">
+        {{ form_label(form.password.second) }}
+        {{ form_widget(form.password.second ) }}
+      </div>
+      <input type="hidden" name="token" value="{{ csrf_token('validateUser') }}"/>
+          
+      <div class="form-wrapper">
+        <button>Connexion</button>
+      </div>
+      {{form_end(form)}}
+    </form>
+  </div>
 </div>
 {% endblock %}
 {% block site2 %}{% endblock %}

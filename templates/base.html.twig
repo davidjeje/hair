@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="fr">
-      {% block site0 %}
-        <head>
+  {% block site0 %}
+  <head>
     <title>Salon</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
 
@@ -24,6 +27,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sourcesanspro-font.css') }}">
     <!-- Main Style Css -->
     <link rel="stylesheet" href="{{ asset('css/style2.css') }}"/>
+
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link rel="stylesheet" href="{{ asset('fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}">
+    
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style3.css') }}">
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -58,9 +67,29 @@
                   <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
                   <li><a href="{{ path('service_service', {'page': 1}) }}" class="nav-link">Nos prestations</a></li>
                   <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
-                  <li><a href="{{ path('login_or_registration') }}" class="nav-link">Connexion/Inscription</a></li>
+                  {% if not is_granted('ROLE_USER')  %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Connexion/Inscription</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="{{ path('login_or_registration') }}">Inscription</a>
+                      <a class="dropdown-item" href="{{ path('service_singIn') }}">Connexion</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="">Déconnexion</a>
+                    </div>
+                  </li>
+                  {% endif %}
                   {% if is_granted('ROLE_USER')  %}
-                  <li><a href="{{ path('app_logout') }}" class="nav-link">Déconnexion</a></li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </div>
+                  </li>
                   {% endif %}
                 </ul>
               </nav> 
@@ -191,7 +220,9 @@
                   	<li><a href="{{ path('service_index') }}">Accueil</a></li>
                   	<li><a href="{{ path('service_service', {'page': 1}) }}">Nos prestations</a></li>
                   	<li><a href="{{ path('service_about') }}">Qui sommes nous</a></li>
+                    {% if not is_granted('ROLE_USER')  %}
                   	<li><a href="{{ path('login_or_registration') }}">Connexion/Inscription</a></li>
+                    {% endif %}
                 	</ul>
               	</div> 
             	</div>
@@ -225,6 +256,13 @@
     <script src="{{ asset('js/aos.js') }}"></script>
 
     <script src="{{ asset('js/main.js') }}"></script>
+
+    <script>
+      $('#myTab').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show');
+      });
+  </script>
 
     <script type="text/javascript">
     {% include 'java.html.twig' %}

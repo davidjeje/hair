@@ -61,6 +61,7 @@ class ServiceController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
+        //dd($user);
 
         if ($form->isSubmitted() && $form->isValid())  {
             /*var_dump($user->getEmail());
@@ -154,6 +155,17 @@ class ServiceController extends AbstractController
     {
 
         return $this->render('service/connectionLink.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), /*'user' => $user, 'last_username' => $lastUsername, 'error' => $error*/]);
+    }
+
+    /**
+     * @Route("/singIn", name="service_singIn", methods="GET|POST")
+     */
+    public function signIn(Request $request, ImageRepository $imageRepository, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils):Response
+    {
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();    
+
+        return $this->render('service/signIn.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'last_username' => $lastUsername]);
     }
 
     /**
