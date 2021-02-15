@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UseType;
+use App\Form\UsType;
 use App\Form\UsersType;
 use App\Form\ProfilType;
 use App\Repository\UserRepository;
@@ -105,6 +106,35 @@ class ServiceController extends AbstractController
         }
 
         return $this->render('service/updateEmailUser.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
+            'form' => $form->createView()]); 
+    }
+
+    /**
+     * @Route("/updateNumberUser", name="update_number_user", methods={"GET|POST"}) 
+     */
+    public function updateNumberUser(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils, MailerInterface $mailer): Response
+    {
+        $user = $this->getUser();
+        //dd($user);
+        $form = $this->createForm(UsType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())  {
+            
+            $number = $user->getNumber();
+            //dd($email);
+            $user->setEmail($number);  
+            
+            $orm = $this->getDoctrine()->getManager();
+            $orm->persist($user);
+            $orm->flush();
+
+            $this->addFlash('success', ' La modification de votre numéro de téléphone est réussite !!! ');
+
+            return $this->redirectToRoute('service_index');
+        }
+
+        return $this->render('service/updateNumberUser.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
             'form' => $form->createView()]); 
     }
 
