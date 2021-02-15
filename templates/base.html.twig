@@ -73,9 +73,6 @@
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="{{ path('login_or_registration') }}">Inscription</a>
                       <a class="dropdown-item" href="{{ path('service_singIn') }}">Connexion</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="">Déconnexion</a>
                     </div>
                   </li>
                   {% endif %}
@@ -83,9 +80,9 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#">Rendez-vous</a>
+                      <a class="dropdown-item" href="{{ path('update_password') }}">Modifier son mot de passe</a>
+                      <a class="dropdown-item" href="#">Modifier ses informations</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
                     </div>

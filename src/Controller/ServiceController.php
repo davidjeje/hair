@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UsersType;
 use App\Form\ProfilType;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,6 +48,34 @@ class ServiceController extends AbstractController
     public function about(ImageRepository $imageRepository): Response
     {
         return $this->render('service/about.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
+    }
+
+    /**
+     * @Route("/updatePassword", name="update_password", methods={"GET|POST"}) 
+     */
+    public function updatePassword(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils, MailerInterface $mailer): Response
+    {
+        $user = $this->getUser();
+        //dd($user);
+        $form = $this->createForm(UsersType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())  {
+            
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);  
+            
+            $orm = $this->getDoctrine()->getManager();
+            $orm->persist($user);
+            $orm->flush();
+
+            $this->addFlash('success', ' La modification de votre mot de passe est réussite !!! Dorénavant connectez-vous avec ce mot de passe.');
+
+            return $this->redirectToRoute('service_index');
+        }
+
+        return $this->render('service/updatePassword.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
+            'form' => $form->createView()]); 
     }
 
     /**
