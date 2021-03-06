@@ -66,10 +66,16 @@ class User implements UserInterface, \Serializable
      */
     private $token;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="member")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
         $this->isActive = false;
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,6 +242,36 @@ class User implements UserInterface, \Serializable
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getMember() === $this) {
+                $event->setMember(null);
+            }
+        }
 
         return $this;
     }

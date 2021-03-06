@@ -33,6 +33,91 @@
     
     <!-- STYLE CSS -->
     <link rel="stylesheet" href="{{ asset('css/style3.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous"> 
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js" integrity="sha256-rPPF6R+AH/Gilj2aC00ZAuB2EKmnEjXlEWx5MkAp7bw=" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+      /*document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          locale: 'fr'
+        });
+        calendar.render();
+      });*/
+
+        /*let evenements = [{
+          
+        }]*/
+
+        window.onload = () => {
+          let calendarElt = document.querySelector('#calendar')
+          let calendar = new FullCalendar.Calendar(calendarElt, {
+          initialView: 'timeGridWeek',
+          locale: 'fr',
+          timeZone:'Europe/Paris',
+          selectable: true,
+          selectMirror: true,
+          unselectAuto: true,
+          headerToolbar:{
+            start:'prev next today',
+            center:'title',
+            end:'dayGridMonth timeGridWeek'
+          },
+          slotMinTime:'8:00',
+          slotMaxTime:'20:00',
+          slotLabelInterval:'00:30',
+          dateInfo:'end',
+          height: 'auto',
+          width: 'auto',
+          titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+            month: '2-digit',
+            year: 'numeric',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          },
+          
+          select: function(info){
+            let result = confirm( "Vous souhaitez prendre un RDV le " + info.startStr  + " j'usqu'a " + info.endStr ) ;
+            if (result == true) {
+            
+              calendar.addEvent({ 
+                title: 'Réservé',
+                start: info.startStr,
+                end: info.endStr
+              });
+
+              $.ajax({
+                url : "{{ path('event_new') }}",
+                type : 'GET', // Le type de la requête HTTP, ici devenu POST
+                data : {title: 'Réservé', start: info.startStr, end: info.endStr } // On fait passer nos variables, exactement comme en GET, au script more_com.php
+                /*dataType : 'html'*/
+              });
+              info.preventDefault();
+            } else {
+            // Code à éxécuter si l'utilisateur clique sur "Annuler" 
+              alert("Erreur");
+            }
+            //alert('selected ' + info.startStr + ' to ' + info.endStr);*/
+          },
+          buttonText: {
+            today:    'Aujourd\'hui',
+            month:    'Mois',
+            week:     'Semaine',
+            day:      'Jour',
+          },
+
+          })
+          
+          calendar.render();
+        }
+    </script>
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -67,6 +152,7 @@
                   <li><a href="{{ path('service_index') }}" class="nav-link">Accueil</a></li>
                   <li><a href="{{ path('service_service', {'page': 1}) }}" class="nav-link">Nos prestations</a></li>
                   <li><a href="{{ path('service_about') }}" class="nav-link">Qui sommes nous</a></li>
+                  
                   {% if not is_granted('ROLE_USER')  %}
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Connexion/Inscription</a>
@@ -80,7 +166,7 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Rendez-vous</a>
+                      <a class="dropdown-item" href="https://app.voxiplan.com/s/9992316370">Rendez-vous</a>
                       <a class="dropdown-item" href="{{ path('update_password') }}">Modifier son mot de passe</a>
                       <a class="dropdown-item" href="{{ path('update_email_user') }}">Modifier son Email</a>
                       <a class="dropdown-item" href="{{ path('update_number_user') }}">Modifier son numéro de téléphone</a>
@@ -168,8 +254,14 @@
                 	<div class="item-1-contents">
                   	<h3>{{service.name}}</h3>
                   	<ul>
-                    	<li class="d-flex"><span>Prix de la prestation</span> <span class="price ml-auto">{{service.price}} euros.</span></li>
-                    	<li class="d-flex"><span><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-secondary">Plus d'info</a></span> <span class="price ml-auto"><button type="button" class="btn btn-danger">RDV</button></span></li> 
+                    	<li class="d-flex">
+                        <span>Prix de la prestation</span> 
+                        <span class="price ml-auto">{{service.price}} euros.</span>
+                      </li>
+                    	<li class="d-flex">
+                        <span><a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-secondary">Plus d'info</a></span> 
+                        <span class="price ml-auto"><a href="{{ path('service_calendar') }}" class="btn btn-danger">RDV</a></span>
+                      </li> 
                   	</ul>
                 	</div>
               	</div>
@@ -238,6 +330,8 @@
       	</div>
     	</footer>
     </div>
+
+    
 
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery-migrate-3.0.0.js') }}"></script>

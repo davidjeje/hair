@@ -53,9 +53,15 @@ class Service
      */
     private $paginator;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="service")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +155,36 @@ class Service
     public function setPaginator(?Paginator $paginator): self
     {
         $this->paginator = $paginator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getService() === $this) {
+                $event->setService(null);
+            }
+        }
 
         return $this;
     }

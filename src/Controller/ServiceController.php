@@ -53,6 +53,15 @@ class ServiceController extends AbstractController
     }
 
     /**
+     * @Route("/calendar", name="service_calendar", methods={"GET"})
+     */
+    public function calendar(ImageRepository $imageRepository): Response
+    {
+        return $this->render('service/calendar.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
+    }
+
+
+    /**
      * @Route("/updatePassword", name="update_password", methods={"GET|POST"}) 
      */
     public function updatePassword(ImageRepository $imageRepository, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $authenticationUtils, MailerInterface $mailer): Response
