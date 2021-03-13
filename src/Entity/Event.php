@@ -16,7 +16,7 @@ class Event
      * @ORM\Column(type="integer")
      */
     private $id;
-
+ 
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -30,7 +30,7 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    private $endd;
+    private $end;
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="events")
@@ -59,7 +59,7 @@ class Event
         return $this;
     }
 
-    public function getStart(): /*?string*/ ?\DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
@@ -71,14 +71,14 @@ class Event
         return $this;
     }
 
-    public function getEndd(): ?string //?\DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
-        return $this->endd;
+        return $this->end;
     }
 
-    public function setEndd(/*\DateTimeInterface*/  $endd): self
+    public function setEnd(\DateTimeInterface  $end): self
     {
-        $this->endd = $endd;
+        $this->end = $end;
 
         return $this;
     }

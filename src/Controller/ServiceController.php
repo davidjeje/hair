@@ -53,11 +53,11 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/calendar", name="service_calendar", methods={"GET"})
+     * @Route("/calendar/{id}", name="service_calendar", methods={"GET"})
      */
-    public function calendar(ImageRepository $imageRepository): Response
+    public function calendar(ImageRepository $imageRepository, $id): Response
     {
-        return $this->render('service/calendar.html.twig', ['picture' => $imageRepository->findOneBySomeField(1)]);
+        return $this->render('service/calendar.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'id' => $id]);
     }
 
 
@@ -228,7 +228,7 @@ class ServiceController extends AbstractController
         return $this->render('service/loginOrRegistration.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'user' => $user,
             'form' => $form->createView(), 'last_username' => $lastUsername, 'error' => $error]); 
     }
-
+ 
     /**
      * @Route("/validate/{submittedToken}", name="validate", methods="GET|POST")
      */

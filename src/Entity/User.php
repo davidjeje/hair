@@ -207,7 +207,7 @@ class User implements UserInterface, \Serializable
                 $this->isActive,
                 $this->email,
                 $this->number,
-                ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     public function getEmail(): ?string

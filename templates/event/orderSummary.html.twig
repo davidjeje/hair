@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block site1 %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">60%</div>
+</div>
+<br>
+<br>
+<h1>Récapitulatif</h1>
+<br>
+<br>
+<p>Votre RDV pour la coupe de cheveux {{event.service.name}} est prévu le {{start}}.</p>
+<br>
+<br>
+<p> Pour finaliser la réservation, passer au paiement en ligne d'un montant de {{event.service.price}} euros. </p>
+<button type="button" class="btn btn-primary"><a href="{{ path('event_payment', {'price': event.service.price}) }}">Suivant</a></button>
+<br>
+
+{% endblock %}
+{% block site2 %}{% endblock %}
+{% block site3 %}{% endblock %}
