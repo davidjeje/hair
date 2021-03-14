@@ -22,12 +22,12 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="event_index", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository, ImageRepository $imageRepository): Response
+    /*public function index(EventRepository $eventRepository, ImageRepository $imageRepository): Response
     {
         return $this->render('event/index.html.twig'/*, [
             'events' => $eventRepository->findAll(),
-        ]*/);
-    } 
+        ]);
+    } */
 
     /**
      * @Route("/Order", name="event_order_summary", methods={"GET"})
@@ -89,35 +89,42 @@ class EventController extends AbstractController
 
 
         return $this->redirectToRoute('event_order_summary');
-
-        /*return $this->render('service/index.html.twig', [
-            'services' => $serviceRepository->findAll(), 'picture' => $imageRepository->findOneBySomeField(1)
-        ]);*/   
     }
 
     /**
-     * @Route("/payment/{price}", name="event_payment", methods={"GET"}) 
+     * @Route("/payment", name="event_payment", methods={"POST"}) 
      */
-    public function payment(Request $request, ImageRepository $imageRepository, ServiceRepository $serviceRepository, $price)
+    public function payment(Request $request, ImageRepository $imageRepository, ServiceRepository $serviceRepository)
     {
-        require_once('../vendor/autoload.php'); 
+        if(isset($_POST['price']) && !empty($_POST['price'])){
+        
+            require_once('../vendor/autoload.php'); 
 
-        \Stripe\Stripe::setApiKey('sk_test_51IUKvkAez1VhFKwvtERCpj2IulQqmxVUCMx9sps8QNf0AhUoYZuoErBOClKD0hLhMJaDC6Quu67B6j8JGUEdf2tk00nVCIAkAY');
+            \Stripe\Stripe::setApiKey('sk_test_51IUKvkAez1VhFKwvtERCpj2IulQqmxVUCMx9sps8QNf0AhUoYZuoErBOClKD0hLhMJaDC6Quu67B6j8JGUEdf2tk00nVCIAkAY');
 
-/*sk_test_51IUKvkAez1VhFKwvtERCpj2IulQqmxVUCMx9sps8QNf0AhUoYZuoErBOClKD0hLhMJaDC6Quu67B6j8JGUEdf2tk00nVCIAkAY*/
-
-        $intent = \Stripe\PaymentIntent::create([
-            'amount' => $price*100,
+            /*var_dump($price);
+            die()*/
+            /*$price = (float)$price;
+            $price = $price * 100;
+            var_dump($price);
+            die();*/
+            //$price = floatval($price);
+            $intent = \Stripe\PaymentIntent::create([
+            'amount' => $_POST['price']*100,
             'currency' => 'eur'
-        ]);
-        /*var_dump($intent);
+            ]);
+            /*var_dump($intent);
+            die();*/
+
+            //return $this->redirectToRoute('event_order_summary');
+
+            return $this->render('event/payment.html.twig', [
+            'services' => $serviceRepository->findAll(), 'picture' => $imageRepository->findOneBySomeField(1), 'intent' => $intent]);   
+        }
+        /*$price = (float)$price;
+        var_dump($price);
         die();*/
-
-        //return $this->redirectToRoute('event_order_summary');
-
-        return $this->render('event/payment.html.twig', [
-            'services' => $serviceRepository->findAll(), 'picture' => $imageRepository->findOneBySomeField(1), 'intent' => $intent
-        ]);   
+        
     }
 }
 

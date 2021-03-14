@@ -31,7 +31,7 @@ class Event
      * @ORM\Column(type="datetime")
      */
     private $end;
-
+ 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="events")
      */

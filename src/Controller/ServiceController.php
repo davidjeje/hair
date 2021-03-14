@@ -20,6 +20,7 @@ use App\Form\UsType;
 use App\Form\UsersType;
 use App\Form\ProfilType;
 use App\Repository\UserRepository;
+use App\Repository\EventRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,7 +33,7 @@ use Symfony\Component\Mime\Address;
 
 
 class ServiceController extends AbstractController
-{
+{ 
     /**
      * @Route("/", name="service_index", methods={"GET"})
      */
@@ -55,9 +56,24 @@ class ServiceController extends AbstractController
     /**
      * @Route("/calendar/{id}", name="service_calendar", methods={"GET"})
      */
-    public function calendar(ImageRepository $imageRepository, $id): Response
+    public function calendar(ImageRepository $imageRepository, EventRepository $eventRepository, $id): Response
     {
-        return $this->render('service/calendar.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'id' => $id]);
+        $events = $eventRepository->findAll();
+
+        $rdvs = [];
+
+        foreach ($events as $event ) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'title' => $event->getTitle(),
+                'start' => $event->getStart()->format("Y-m-d H:i:s"),
+                'end' => $event->getEnd()->format("Y-m-d H:i:s")
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('service/calendar.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'id' => $id, 'data' => $data]);
     }
 
 

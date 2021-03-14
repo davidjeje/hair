@@ -5,14 +5,26 @@
 </div>
 <br>
 <br>
-<h1>Récapitulatif</h1>
-<br>
-<br>
-<p>Votre RDV pour la coupe de cheveux {{event.service.name}} est prévu le {{start}}.</p>
-<br>
-<br>
-<p> Pour finaliser la réservation, passer au paiement en ligne d'un montant de {{event.service.price}} euros. </p>
-<button type="button" class="btn btn-primary"><a href="{{ path('event_payment', {'price': event.service.price}) }}">Suivant</a></button>
+
+<form  action= "{{ path('event_payment') }}" method="post"> 
+      
+    <h3>Récapitulatif</h3>
+    <div class="form-wrapper">
+        <label for="name" class="form-label">Vous avez choisi </label>
+    	<input type="text" class="form-control" id="name" name="name" value="{{event.service.name}}">
+    </div>
+    <div class="form-wrapper">
+        <label for="date" class="form-label">Date du rdv</label>
+    	<input type="text" class="form-control" id="date" value="{{start}}">
+    </div>
+    <div class="form-wrapper">
+        <label for="price" class="form-label">Le prix</label>
+    	<input type="text" class="form-control" id="price" name= "price" value="{{event.service.price}}">
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Valider" />
+</form>
+
 <br>
 
 {% endblock %}
