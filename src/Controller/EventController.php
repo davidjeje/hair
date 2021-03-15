@@ -20,14 +20,15 @@ use App\Repository\ServiceRepository;
 class EventController extends AbstractController
 {
     /**
-     * @Route("/", name="event_index", methods={"GET"})
+     * @Route("/event", name="event_index", methods={"GET"})
      */
-    /*public function index(EventRepository $eventRepository, ImageRepository $imageRepository): Response
+    public function index(EventRepository $eventRepository, ImageRepository $imageRepository)
     {
-        return $this->render('event/index.html.twig'/*, [
+        return $this->redirectToRoute('service_index');
+        /*return $this->render('event/index.html.twig', [
             'events' => $eventRepository->findAll(),
-        ]);
-    } */
+        ]);*/
+    } 
 
     /**
      * @Route("/Order", name="event_order_summary", methods={"GET"})

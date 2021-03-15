@@ -2,7 +2,7 @@ window.onload = () =>{
 	//Variables
 	let stripe = Stripe('pk_test_51IUKvkAez1VhFKwvXRzJ8I0i7UsDspIW88mi5nh7XqVG3Myd0sV6ncOHpCPXzJhqiHnmeBrTMqfVknl2Z2ojVMb1008Uf7yPjG')
 	let elements = stripe.elements()
-	let redirect = "{{ path('service_about') }}"
+	let redirect = "{{ path('event_index') }}"
 
 
 	//objets de la page
@@ -36,8 +36,8 @@ window.onload = () =>{
             if(result.error){
                 document.getElementById("errors").innerText = result.error.message
             }else{
-                //document.location.href = redirect
-                window.location.replace("{{ path('service_index') }}");
+                document.location.href = redirect
+                //window.location.replace("{{ path('service_about') }}");
             }
         })
     })
