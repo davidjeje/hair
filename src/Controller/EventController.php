@@ -28,6 +28,56 @@ class EventController extends AbstractController
         /*return $this->render('event/index.html.twig', [
             'events' => $eventRepository->findAll(),
         ]);*/
+    }
+
+    /**
+     * @Route("/changeEvent", name="event_change", methods={"GET|POST"})
+     */
+    public function change(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $startDateEvent = new \dateTime($_GET['start']);
+        
+        $EndDateEvent =  new \dateTime($_GET['end']);
+
+        $event = $eventRepository->findOneBy(['start' => $startDateEvent, 'end' => $EndDateEvent, 'member' => $this->getUser()->getId()]);
+        
+        $startDate = $event->getStart();
+        $startDate = $startDate->format("d-m-Y H:i:s");
+        //dd($startDate);
+
+        //$start = $start->format("d-m-Y H:i:s");
+        
+        return $this->render('event/change.html.twig', [
+            'event' => $event, 'startDate' => $startDate,'picture' => $imageRepository->findOneBySomeField(1)
+        ]);
+    }
+
+    /**
+     * @Route("/planning", name="event_planning", methods={"GET"})
+     */
+    public function planning(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $user = $this->getUser()->getId();
+        
+        //$product = $repository->findOneBy(['name' => 'Keyboard']);
+        $rdvMembers = $eventRepository->findBy(['member' => $user]);
+        //dd($rdvMembers);
+        $rdvs = [];
+
+        foreach ($rdvMembers as $rdvMember ) {
+            $rdvs[] = [
+                
+                'title' => $rdvMember->getTitle(),
+                'start' => $rdvMember->getStart()->format("Y-m-d H:i:s"),
+                'end' => $rdvMember->getEnd()->format("Y-m-d H:i:s")
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('event/planning.html.twig', [
+            'data' => $data,'picture' => $imageRepository->findOneBySomeField(1) 
+        ]);
     } 
 
     /**
