@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Entity\Date;
+use App\Repository\DateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,31 +33,150 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/changeEvent", name="event_change", methods={"GET|POST"})
+     * @Route("/event/give/data", name="event_give_data", methods={"GET|POST"})
      */
-    public function change(EventRepository $eventRepository, ImageRepository $imageRepository)
-    {
+    public function dataGive(EventRepository $eventRepository, ImageRepository $imageRepository)
+    { 
         $startDateEvent = new \dateTime($_GET['start']);
         
         $EndDateEvent =  new \dateTime($_GET['end']);
+
+        $dates = new Date();
+
+        $date = $dates->setStart($startDateEvent);
+        $date = $dates->setEnd($EndDateEvent);
+
+        $orm = $this->getDoctrine()->getManager();
+        $orm->persist($date);
+        $orm->flush();
+
+        return $this->redirectToRoute('service_index');
+    }
+
+    /**
+     * @Route("/event/data/to/delete", name="event_data_to_delete", methods={"GET|POST"})
+     */
+    public function eventDataToDelete(EventRepository $eventRepository, ImageRepository $imageRepository,Request $request)
+    { 
+        $startDateEvent = new \dateTime($_GET['start']);
+        
+        $endDateEvent =  new \dateTime($_GET['end']);
+
+        $event = $eventRepository->findOneBy([
+            'member' => $this->getUser()->getId(),
+            'start' => $startDateEvent,
+            'end' => $endDateEvent
+        ]);
+
+        //dd($event);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($event);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('service_index');
+    }
+
+    /**
+     * @Route("/event/success/delete", name="event_success_delete", methods={"GET|POST"})
+     */
+    public function eventSuccessDelete(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $this->addFlash('success', ' La suppression de votre RDV est réussit !!! ');
+
+        return $this->redirectToRoute('service_index');
+    }
+
+    /**
+     * @Route("/event/change", name="event_change", methods={"GET|POST"})
+     */
+    public function change(EventRepository $eventRepository, DateRepository $dateRepository,ImageRepository $imageRepository)
+    {
+        $dates = $dateRepository->findAll();
+
+        foreach($dates AS $date) 
+        {
+            $date = $date;
+        }
+        
+        $startDateEvent = $date->getStart();
+        
+        $EndDateEvent =  $date->getEnd();
 
         $event = $eventRepository->findOneBy(['start' => $startDateEvent, 'end' => $EndDateEvent, 'member' => $this->getUser()->getId()]);
         
         $startDate = $event->getStart();
         $startDate = $startDate->format("d-m-Y H:i:s");
         //dd($startDate);
-
-        //$start = $start->format("d-m-Y H:i:s");
         
         return $this->render('event/change.html.twig', [
-            'event' => $event, 'startDate' => $startDate,'picture' => $imageRepository->findOneBySomeField(1)
+            'event' => $event, 'startDate' => $startDate, 'picture' => $imageRepository->findOneBySomeField(1)
         ]);
     }
 
     /**
-     * @Route("/planning", name="event_planning", methods={"GET"})
+     * @Route("/event/update", name="event_update", methods={"GET|POST"})
      */
-    public function planning(EventRepository $eventRepository, ImageRepository $imageRepository)
+    public function update(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $idBookingOld = $_POST['id'];
+        //dd($idBookingOld);
+
+        $events = $eventRepository->findAll();
+
+        $rdvs = [];
+
+        foreach ($events as $event ) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'title' => $event->getTitle(),
+                'start' => $event->getStart()->format("Y-m-d H:i:s"),
+                'end' => $event->getEnd()->format("Y-m-d H:i:s")
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('event/updatePlanning.html.twig', ['picture' => $imageRepository->findOneBySomeField(1), 'idBookingOld' => $idBookingOld, 'data' => $data]);
+    }
+
+    /**
+     * @Route("/event/modification/validate/{idBookingOld}", name="event_modification_validate", methods={"GET|POST"})
+     */
+    public function eventModificationValidate(EventRepository $eventRepository, ImageRepository $imageRepository, $idBookingOld)
+    {
+        $eventOld = $eventRepository->find($idBookingOld);
+        //dd($_GET['start']);
+        $startDateEvent = new \dateTime($_GET['start']);
+        
+        $EndDateEvent =  new \dateTime($_GET['end']);
+
+        $eventNew = $eventOld->setStart($startDateEvent);
+        $eventNew = $eventOld->setEnd($EndDateEvent);
+
+        $orm = $this->getDoctrine()->getManager();
+        $orm->persist($eventNew);
+        $orm->flush();
+
+        return $this->redirectToRoute('service_index');
+    }
+
+    /**
+     * @Route("/event/success/update", name="event_success_update", methods={"GET|POST"})
+     */
+    public function eventSuccessUpdate(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $this->addFlash('success', ' La modification de votre RDV est réussit !!! ');
+
+        return $this->redirectToRoute('service_index');
+    }
+
+
+
+    /**
+     * @Route("/event/planning/update", name="event_planning_update", methods={"GET"})
+     */
+    public function planningUpdate(EventRepository $eventRepository, ImageRepository $imageRepository)
     {
         $user = $this->getUser()->getId();
         
@@ -75,13 +196,41 @@ class EventController extends AbstractController
 
         $data = json_encode($rdvs);
 
-        return $this->render('event/planning.html.twig', [
-            'data' => $data,'picture' => $imageRepository->findOneBySomeField(1) 
+        return $this->render('event/planningUpdate.html.twig', [
+            'datas' => $data,'picture' => $imageRepository->findOneBySomeField(1) 
         ]);
     } 
 
     /**
-     * @Route("/Order", name="event_order_summary", methods={"GET"})
+     * @Route("/event/planning/delete", name="event_planning_delete", methods={"GET"})
+     */
+    public function planningDelete(EventRepository $eventRepository, ImageRepository $imageRepository)
+    {
+        $user = $this->getUser()->getId();
+        
+        //$product = $repository->findOneBy(['name' => 'Keyboard']);
+        $rdvMembers = $eventRepository->findBy(['member' => $user]);
+        //dd($rdvMembers);
+        $rdvs = [];
+
+        foreach ($rdvMembers as $rdvMember ) {
+            $rdvs[] = [
+                
+                'title' => $rdvMember->getTitle(),
+                'start' => $rdvMember->getStart()->format("Y-m-d H:i:s"),
+                'end' => $rdvMember->getEnd()->format("Y-m-d H:i:s")
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('event/planningDelete.html.twig', [
+            'datas' => $data,'picture' => $imageRepository->findOneBySomeField(1) 
+        ]);
+    } 
+
+    /**
+     * @Route("/event/Order", name="event_order_summary", methods={"GET"})
      */
     public function order(EventRepository $eventRepository, ImageRepository $imageRepository): Response
     {  
@@ -111,7 +260,7 @@ class EventController extends AbstractController
     }  
 
     /**
-     * @Route("/new/{id}", name="event_new", methods={"GET"}) 
+     * @Route("/event/new/{id}", name="event_new", methods={"GET"}) 
      */
     public function new(Request $request, ImageRepository $imageRepository, ServiceRepository $serviceRepository, $id)
     {
@@ -143,7 +292,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/payment", name="event_payment", methods={"POST"}) 
+     * @Route("/event/payment", name="event_payment", methods={"POST"}) 
      */
     public function payment(Request $request, ImageRepository $imageRepository, ServiceRepository $serviceRepository)
     {

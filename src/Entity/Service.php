@@ -40,16 +40,8 @@ class Service
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="service", orphanRemoval=true)
-     */
-    private $bookings;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Paginator::class, inversedBy="services")
-<<<<<<< HEAD
      * @ORM\JoinColumn(nullable=false)
-=======
->>>>>>> paginator
      */
     private $paginator;
 
@@ -60,7 +52,6 @@ class Service
 
     public function __construct()
     {
-        $this->bookings = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
 
@@ -113,36 +104,6 @@ class Service
     public function setImage(string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Booking[]
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
-    public function addBooking(Booking $booking): self
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings[] = $booking;
-            $booking->setService($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): self
-    {
-        if ($this->bookings->removeElement($booking)) {
-            // set the owning side to null (unless already changed)
-            if ($booking->getService() === $this) {
-                $booking->setService(null);
-            }
-        }
 
         return $this;
     }

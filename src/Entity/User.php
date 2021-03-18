@@ -47,11 +47,6 @@ class User implements UserInterface, \Serializable
     private $roles = []; 
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer", orphanRemoval=true)
-     */
-    private $bookings;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
@@ -73,7 +68,6 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->bookings = new ArrayCollection();
         $this->isActive = false;
         $this->events = new ArrayCollection();
     }
@@ -131,36 +125,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * @return Collection|Booking[]
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
-    public function addBooking(Booking $booking): self
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings[] = $booking;
-            $booking->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): self
-    {
-        if ($this->bookings->removeElement($booking)) {
-            // set the owning side to null (unless already changed)
-            if ($booking->getCustomer() === $this) {
-                $booking->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     public function getUsername()
     {
         return $this->name;

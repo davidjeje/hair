@@ -1,28 +1,28 @@
 {% extends 'base.html.twig' %}
-{% block site1 %}
+{% block site1 %} 
 <div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">60%</div>
+  <div class="progress-bar" role="progressbar" style="width: 66%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Etape 2 sur 3</div>
 </div>
 <br>
 <br>
 
-<form  action= "{{ path('event_payment') }}" method="post"> 
+<form  action= "{{ path('event_update') }}" method="post"> 
       
-    <h3>Modifier ou Annuler le RDV</h3>
-    <div class="form-wrapper">
-    	<input type="hidden" class="form-control" name="id" value="{{event.id}}">
-    </div>
-    <div class="form-wrapper">
-        <label for="date" class="form-label">Date du rdv</label>
-    	<input type="text" class="form-control" id="date" value="{{startDate}}">
-    </div>
-    <div class="form-wrapper">
-        <label for="date" class="form-label">Prestation</label>
-        <input type="text" class="form-control" id="date" value="{{event.service.name}}">
-    </div>
+  <h3>Pour modifier ce RDV appuyer sur le bouton suivant</h3>
+  <div class="form-wrapper">
+    <input type="hidden" class="form-control" name="id" value="{{event.id}}">
+  </div>
+  <div class="form-wrapper">
+    <label for="date" class="form-label">Date du rdv</label>
+    <input type="text" class="form-control" id="date" value="{{startDate}}">
+  </div>
+  <div class="form-wrapper">
+    <label for="date" class="form-label">Prestation</label>
+    <input type="text" class="form-control" id="date" value="{{event.service.name}}">
+  </div>
     
-    <input type="submit" class="btn btn-primary" value="Modifier" />
-    <input type="submit" class="btn btn-primary" value="Annuler" />
+  <input type="submit" class="btn btn-primary" value="Suivant" />
+    
 </form>
 
 <br>

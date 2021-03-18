@@ -43,19 +43,6 @@
 
     <script>
 
-      /*document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'fr'
-        });
-        calendar.render();
-      });*/
-
-        /*let evenements = [{
-          
-        }]*/
-
         window.onload = () => {
           let calendarElt = document.querySelector('#calendar')
           let calendar = new FullCalendar.Calendar(calendarElt, {
@@ -83,30 +70,27 @@
               hour: '2-digit',
               minute: '2-digit'
             },
-            select: function(info){
-              let result = confirm( "Vous souhaitez prendre un RDV le " + info.startStr  + " j'usqu'a " + info.endStr ) ;
-              if (result == true) {
-            
-                $.ajax({
-                  url : "{{ path('event_new', {'id': id}) }}",
-                  type : 'GET', // Le type de la requête HTTP, ici devenu POST
-                  data : {title: 'Réservé', start: info.startStr, end: info.endStr }
-                  //dataType : 'html'
-                });
-                window.location.replace("{{ path('event_order_summary') }}");
-                //info.preventDefault();, {'slug': trick.slug,
-              } else {
-                // Code à éxécuter si l'utilisateur clique sur "Annuler" 
-                alert("Erreur");
-              }       
-            },
             buttonText: {
               today:    'Aujourd\'hui',
               month:    'Mois',
               week:     'Semaine',
               day:      'Jour',
             },
-            events:{{ data|raw }}
+            eventClick: function(info) {
+              let result = confirm( "Vous souhaitez modifier ce RDV ?");
+              if (result == true) {
+                $.ajax({    
+                  url : "{{ path('event_give_data') }}",
+                  type : 'GET', // Le type de la requête HTTP, ici devenu POST
+                  data : {start: info.event.startStr, end: info.event.endStr },
+                  //dataType : 'html'
+                });
+                window.location.replace("{{ path('event_change') }}");
+              }else{
+
+              }
+            },
+            events:{{ datas|raw }}
 
           })
           
@@ -155,7 +139,7 @@
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="{{ path('login_or_registration') }}">Inscription</a>
                       <a class="dropdown-item" href="{{ path('service_singIn') }}">Connexion</a>
-                    </div> 
+                    </div>
                   </li>
                   {% endif %}
                   {% if is_granted('ROLE_USER')  %}
@@ -195,19 +179,14 @@
         </div>
       </div>
       {% endblock %}
-      {% block site1 %}
-      <div class="row">   
-        <div class="col-12">
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-              Etape 1 sur 3
-            </div>
-          </div>
-          <br>
-          <div id='calendar'></div>
-          <br>
-        </div>  
-      </div>  
+{% block site1 %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Etape 1 sur 3</div>
+</div>
+  <br>
+  <div id='calendar'></div>
+  <br>
+  
 {% endblock %}
 {% block site2 %}{% endblock %}
 {% block site3 %}{% endblock %}
